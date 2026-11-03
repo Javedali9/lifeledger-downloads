@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LifeLedger — Your Life, In Control</title>
+
+<meta name="description" content="LifeLedger brings your daily routine, tasks, trading journal, finance and personal progress together in one place.">
+
+<style>
+:root {
+    --bg: #080f20;
+    --card: #142440;
+    --card2: #192c4c;
+    --gold: #e5c875;
+    --text: #f5f6fa;
+    --muted: #aab6ca;
+    --border: rgba(255,255,255,.09);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.container {
+    width: min(1120px, 90%);
+    margin: auto;
+}
+
+/* NAVBAR */
+
+nav {
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: rgba(8,15,32,.95);
+    backdrop-filter: blur(14px);
+    z-index: 100;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -.8px;
+}
+
+.logo span {
+    color: var(--gold);
+}
+
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    font-size: 14px;
+    color: var(--muted);
+}
+
+.nav-links a:hover {
+    color: var(--gold);
+}
+
+.btn {
+    display: inline-block;
+    padding: 12px 23px;
+    background: var(--gold);
+    color: #111827;
+    border-radius: 9px;
+    font-weight: 700;
+    transition: .2s;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(229,200,117,.2);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+}
+
+/* HERO */
+
+.hero {
+    min-height: 590px;
+    display: flex;
+    align-items: center;
+    padding: 85px 0;
+    background:
+    radial-gradient(ellipse at 75% 45%, #1b3455 0%, transparent 55%);
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 55px;
+    align-items: center;
+}
+
+.badge {
+    display: inline-block;
+    border: 1px solid rgba(229,200,117,.35);
+    color: var(--gold);
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    margin-bottom: 23px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 5.5vw, 65px);
+    line-height: 1.12;
+    letter-spacing: -2px;
+    margin-bottom: 22px;
+}
+
+.hero h1 span {
+    color: var(--gold);
+}
+
+.hero p {
+    color: var(--muted);
+    font-size: 17px;
+    max-width: 520px;
+    margin-bottom: 32px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.hero-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 20px;
+}
+
+/* APP PREVIEW */
+
+.preview {
+    background: #0d1930;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 17px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.35);
+    transform: rotate(1deg);
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.preview-header span {
+    color: var(--gold);
+}
+
+.preview-cards {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.preview-card {
+    background: var(--card);
+    padding: 19px 15px;
+    border-radius: 12px;
+    min-height: 110px;
+}
+
+.preview-card .icon {
+    font-size: 25px;
+    margin-bottom: 10px;
+    color: var(--gold);
+}
+
+.preview-card h3 {
+    font-size: 14px;
+}
+
+.preview-card small {
+    color: var(--muted);
+}
+
+.preview-task {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 15px;
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.preview-task span {
+    color: var(--gold);
+}
+
+/* SECTIONS */
+
+section {
+    padding: 90px 0;
+}
+
+.section-heading {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.section-heading h2 {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.section-heading h2 span {
+    color: var(--gold);
+}
+
+.section-heading p {
+    color: var(--muted);
+    max-width: 600px;
+    margin: auto;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    background: var(--card);
+    padding: 28px;
+    border-radius: 15px;
+    border: 1px solid var(--border);
+    transition: .25s;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(229,200,117,.5);
+}
+
+.feature-icon {
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: rgba(229,200,117,.12);
+    color: var(--gold);
+    font-size: 24px;
+    margin-bottom: 18px;
+}
+
+.feature-card h3 {
+    margin-bottom: 9px;
+    font-size: 19px;
+}
+
+.feature-card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* WHY LIFELEDGER */
+
+.why {
+    background: #0d192e;
+}
+
+.why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 55px;
+    align-items: center;
+}
+
+.why h2 {
+    font-size: 37px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.why h2 span {
+    color: var(--gold);
+}
+
+.why p {
+    color: var(--muted);
+    margin-bottom: 18px;
+}
+
+.points {
+    display: grid;
+    gap: 13px;
+}
+
+.point {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 15px;
+}
+
+.point span {
+    color: var(--gold);
+    margin-right: 10px;
+}
+
+/* DOWNLOAD */
+
+.download {
+    text-align: center;
+    background:
+    radial-gradient(ellipse at center, #1b3455 0%, transparent 70%);
+}
+
+.download-box {
+    max-width: 750px;
+    margin: auto;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 52px 25px;
+}
+
+.download-box h2 {
+    font-size: 38px;
+    margin-bottom: 15px;
+}
+
+.download-box h2 span {
+    color: var(--gold);
+}
+
+.download-box p {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+.download-meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 20px;
+}
+
+/* PRIVACY */
+
+.privacy-box {
+    max-width: 850px;
+    margin: auto;
+    background: var(--card);
+    border-radius: 15px;
+    padding: 30px;
+    border: 1px solid var(--border);
+}
+
+.privacy-box h3 {
+    color: var(--gold);
+    margin: 17px 0 6px;
+}
+
+.privacy-box p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* FOOTER */
+
+footer {
+    border-top: 1px solid var(--border);
+    padding: 35px 0;
+    text-align: center;
+}
+
+footer p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+footer strong {
+    color: var(--gold);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 23px;
+    flex-wrap: wrap;
+    margin: 17px 0;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+/* MOBILE */
+
+@media(max-width:800px) {
+    .nav-links {
+        gap: 13px;
+        font-size: 12px;
+    }
+
+    .nav-download {
+        display: none;
+    }
+
+    .hero-grid,
+    .why-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 65px 0;
+    }
+
+    .preview {
+        transform: none;
+    }
+
+    .features-grid {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    section {
+        padding: 65px 0;
+    }
+}
+
+@media(max-width:520px) {
+    .nav-links {
+        gap: 10px;
+        font-size: 11px;
+    }
+
+    .logo {
+        font-size: 19px;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading h2 {
+        font-size: 29px;
+    }
+
+    .download-box h2 {
+        font-size: 30px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVIGATION -->
+
+<nav>
+<div class="container" style="display:flex;align-items:center;justify-content:space-between;width:90%;">
+    <a href="#" class="logo">▣ Life<span>Ledger</span></a>
+
+    <div class="nav-links">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#download">Download</a>
+        <a href="#privacy">Privacy</a>
+    </div>
+
+    <a href="#download" class="btn nav-download">Get App</a>
+</div>
+</nav>
+
+<!-- HERO -->
+
+<main>
+
+<section class="hero" id="home">
+<div class="container hero-grid">
+
+    <div>
+        <div class="badge">YOUR PERSONAL PRODUCTIVITY PLATFORM</div>
+
+        <h1>
+            Your Life.<br>
+            Your Goals.<br>
+            <span>Your Control.</span>
+        </h1>
+
+        <p>
+            Bring your daily routine, tasks, trading journal,
+            finances and personal progress together in one
+            organized workspace.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="#download" class="btn">Explore LifeLedger ↓</a>
+            <a href="#features" class="btn btn-outline">Explore Features</a>
+        </div>
+
+        <div class="hero-note">
+            Built for Windows Desktop · Version 1.0.0
+        </div>
+    </div>
+
+    <div class="preview">
+
+        <div class="preview-header">
+            <span>▣ LifeLedger</span>
+            <small>Dashboard</small>
+        </div>
+
+        <div class="preview-cards">
+
+            <div class="preview-card">
+                <div class="icon">◉</div>
+                <h3>Daily Routine</h3>
+                <small>Tasks & Habits</small>
+            </div>
+
+            <div class="preview-card">
+                <div class="icon">⌁</div>
+                <h3>Trading</h3>
+                <small>Journal & Setups</small>
+            </div>
+
+            <div class="preview-card">
+                <div class="icon">▣</div>
+                <h3>Finance</h3>
+                <small>Income & Expenses</small>
+            </div>
+
+            <div class="preview-card">
+                <div class="icon">▥</div>
+                <h3>Reports</h3>
+                <small>Your Progress</small>
+            </div>
+
+        </div>
+
+        <div class="preview-task">
+            <span>● Today's Tasks</span>
+            <p style="margin-top:12px;">✓ Plan your day</p>
+            <p>✓ Review your progress</p>
+            <p>○ Complete daily goals</p>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- FEATURES -->
+
+<section id="features">
+<div class="container">
+
+    <div class="section-heading">
+        <h2>Everything in <span>One Place</span></h2>
+        <p>
+            Manage different areas of your life without
+            switching between multiple applications.
+        </p>
+    </div>
+
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <div class="feature-icon">◉</div>
+            <h3>Daily Routine</h3>
+            <p>
+                Organize daily tasks, habits, plans and
+                routines. Build consistency every day.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">⌁</div>
+            <h3>Trading Journal</h3>
+            <p>
+                Track trades, trading setups, entries,
+                exits and your trading performance.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">▣</div>
+            <h3>Finance Manager</h3>
+            <p>
+                Keep track of income, expenses and
+                your personal financial records.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">▥</div>
+            <h3>Reports</h3>
+            <p>
+                Review your progress and understand
+                your daily and overall performance.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">✓</div>
+            <h3>Tasks & Plans</h3>
+            <p>
+                Organize your responsibilities and
+                keep important work in one place.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">✦</div>
+            <h3>Custom Modules</h3>
+            <p>
+                Create additional sections according
+                to your personal needs.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- WHY -->
+
+<section class="why">
+<div class="container why-grid">
+
+    <div>
+        <h2>Designed for <span>Better Discipline</span></h2>
+
+        <p>
+            LifeLedger helps you organize your daily activities
+            and understand where your time and money go.
+        </p>
+
+        <p>
+            Instead of managing everything separately,
+            keep your personal productivity in one workspace.
+        </p>
+
+        <a href="#download" class="btn">Get Started</a>
+    </div>
+
+    <div class="points">
+
+        <div class="point">
+            <span>✓</span> Simple and organized dashboard
+        </div>
+
+        <div class="point">
+            <span>✓</span> Local data storage
+        </div>
+
+        <div class="point">
+            <span>✓</span> Google account sign-in
+        </div>
+
+        <div class="point">
+            <span>✓</span> Backup and restore options
+        </div>
+
+        <div class="point">
+            <span>✓</span> Customizable personal workspace
+        </div>
+
+    </div>
+
+</div>
+</section>
+
+<!-- DOWNLOAD -->
+
+<section class="download" id="download">
+
+<div class="container">
+
+    <div class="download-box">
+
+        <div class="badge">LIFELEDGER FOR WINDOWS</div>
+
+        <h2>Take Control of <span>Your Life</span></h2>
+
+        <p>
+            Download LifeLedger for your Windows desktop
+            and organize your everyday life in one place.
+        </p>
+
+        <a
+          class="btn"
+          href="https://github.com/Javedali9/lifeledger-downloads/releases/latest/download/LifeLedger-Windows.zip"
+          target="_blank"
+          rel="noopener noreferrer">
+          ↓ Download for Windows
+        </a>
+
+        <div class="download-meta">
+            Version 1.0.0 · Windows 64-bit · ZIP Package
+        </div>
+
+        <p style="font-size:12px;margin-top:18px;margin-bottom:0;">
+            Download will be available after the official
+            Windows release is published.
+        </p>
+
+    </div>
+
+</div>
+</section>
+
+<!-- PRIVACY -->
+
+<section id="privacy">
+<div class="container">
+
+    <div class="section-heading">
+        <h2>Your Data, <span>Your Privacy</span></h2>
+        <p>
+            Important information about how LifeLedger
+            currently handles your data.
+        </p>
+    </div>
+
+    <div class="privacy-box">
+
+        <h3>Local Data Storage</h3>
+        <p>
+            Your main LifeLedger records, including routine,
+            trading and finance information, are stored locally
+            on your Windows device.
+        </p>
+
+        <h3>Google Sign-In</h3>
+        <p>
+            Google sign-in is provided through Supabase
+            authentication. Google and Supabase privacy
+            policies also apply when you use this feature.
+        </p>
+
+        <h3>Backup & Restore</h3>
+        <p>
+            LifeLedger provides local backup and restore
+            options. Automatic cloud synchronization and
+            cross-device data sync are not currently
+            available in this release.
+        </p>
+
+        <h3>Payments</h3>
+        <p>
+            LifeLedger does not require an in-app subscription
+            for the features included in this release.
+        </p>
+
+    </div>
+
+</div>
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+<div class="container">
+
+    <a href="#home" class="logo">▣ Life<span>Ledger</span></a>
+
+    <div class="footer-links">
+        <a href="#home">Home</a>
+        <a href="#features">Features</a>
+        <a href="#download">Download</a>
+        <a href="#privacy">Privacy</a>
+        <a href="https://github.com/Javedali9/lifeledger-downloads"
+           target="_blank">GitHub</a>
+    </div>
+
+    <p>
+        © 2026 <strong>LifeLedger</strong>.
+        Built for better everyday living.
+    </p>
+
+</div>
+</footer>
+
+</body>
+</html>
